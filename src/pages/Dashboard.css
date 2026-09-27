@@ -1,0 +1,356 @@
+.dashboard-page {
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+.dashboard-header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.dashboard-greeting {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--text-main);
+  margin: 0 0 0.35rem;
+}
+
+.dashboard-sub {
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  margin: 0;
+  max-width: 600px;
+}
+
+.dashboard-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.dashboard-main-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+/* Primary Column */
+.dashboard-primary-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Active Pass Card */
+.active-pass-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-main);
+}
+
+.active-pass-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  padding-bottom: 1.15rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.active-indicator-tag {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent-green-text);
+  background-color: var(--accent-green-light);
+  border: 1px solid var(--accent-green-border);
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-xs);
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
+.active-facility-title {
+  font-size: 1.3125rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin: 0 0 0.25rem;
+  letter-spacing: -0.015em;
+}
+
+.active-facility-address {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.active-bay-pill {
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-main);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 85px;
+}
+
+.bay-pill-caption {
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: var(--text-subdued);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.bay-pill-code {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.1;
+  margin: 0.15rem 0;
+}
+
+.bay-pill-floor {
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+}
+
+.active-spec-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1rem;
+}
+
+.active-spec-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.spec-label {
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-subdued);
+  font-weight: 500;
+}
+
+.spec-val {
+  font-size: 0.84375rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+.text-green {
+  color: var(--accent-green-text);
+}
+
+.active-pass-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* Quick Nav Shortcuts */
+.quick-nav-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.section-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.quick-links-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.85rem;
+}
+
+.quick-link-box {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-main);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1rem;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  transition: all 0.15s ease;
+}
+
+.quick-link-box:hover {
+  border-color: var(--border-strong);
+  background-color: var(--bg-subtle);
+}
+
+.quick-link-title {
+  font-size: 0.84375rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.quick-link-sub {
+  font-size: 0.71875rem;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+/* Secondary Column */
+.dashboard-secondary-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Summary Metrics */
+.metrics-compact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-top: 0.65rem;
+}
+
+.metric-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.metric-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.m-label {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.m-val {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.val-truncate {
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Recent Reservations List */
+.recent-res-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.view-link {
+  font-size: 0.78125rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.view-link:hover {
+  color: var(--text-main);
+}
+
+.recent-res-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+}
+
+.recent-res-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 0.5rem;
+  border-radius: var(--radius-xs);
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.recent-res-item:hover {
+  background-color: var(--bg-main);
+}
+
+.recent-res-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.recent-res-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.recent-garage-name {
+  font-size: 0.84375rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.recent-res-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.recent-res-arrow {
+  color: var(--text-subdued);
+  font-size: 0.875rem;
+  margin-left: 0.5rem;
+}
+
+@media (max-width: 960px) {
+  .dashboard-main-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .quick-links-row {
+    grid-template-columns: 1fr;
+  }
+  .active-spec-grid {
+    grid-template-columns: 1fr;
+  }
+}

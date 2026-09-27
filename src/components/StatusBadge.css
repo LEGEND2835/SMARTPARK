@@ -1,0 +1,92 @@
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 500;
+  border-radius: var(--radius-xs);
+  line-height: 1;
+  text-transform: capitalize;
+  letter-spacing: 0.01em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.status-badge.size-sm {
+  padding: 0.2rem 0.45rem;
+  font-size: 0.75rem;
+}
+
+.status-badge.size-md {
+  padding: 0.3rem 0.6rem;
+  font-size: 0.8125rem;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* Status variants */
+.status-available,
+.status-active,
+.status-paid,
+.status-open {
+  background-color: var(--status-available-bg);
+  color: var(--accent-green-text);
+  border: 1px solid var(--status-available-border);
+}
+.status-available .status-dot,
+.status-active .status-dot,
+.status-paid .status-dot,
+.status-open .status-dot {
+  background-color: var(--accent-green);
+}
+
+.status-reserved,
+.status-upcoming,
+.status-pending {
+  background-color: var(--status-reserved-bg);
+  color: #824F14;
+  border: 1px solid var(--status-reserved-border);
+}
+.status-reserved .status-dot,
+.status-upcoming .status-dot,
+.status-pending .status-dot {
+  background-color: var(--status-reserved);
+}
+
+.status-occupied,
+.status-cancelled,
+.status-closed {
+  background-color: var(--status-occupied-bg);
+  color: #8A2E27;
+  border: 1px solid var(--status-occupied-border);
+}
+.status-occupied .status-dot,
+.status-cancelled .status-dot,
+.status-closed .status-dot {
+  background-color: var(--status-occupied);
+}
+
+.status-completed {
+  background-color: var(--status-available-bg);
+  color: var(--accent-green-text);
+  border: 1px solid var(--status-available-border);
+}
+.status-completed .status-dot {
+  background-color: var(--status-available);
+}
+
+.status-disabled,
+.status-refunded {
+  background-color: var(--status-disabled-bg);
+  color: #5A5A55;
+  border: 1px solid var(--status-disabled-border);
+}
+.status-disabled .status-dot,
+.status-refunded .status-dot {
+  background-color: var(--status-disabled);
+}

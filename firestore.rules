@@ -1,0 +1,93 @@
+rules_version = '2';
+
+// ===============================================================
+// Assumed Data Model (SmartPark Phase 2)
+// ===============================================================
+//
+// Collection: users
+// Document ID: {userId} (Must match Firebase Auth UID)
+// Fields:
+//   - uid: string (required, immutable, must equal document ID and request.auth.uid)
+//   - fullName: string (required, 1-100 characters)
+//   - email: string (required, valid email format, max 150 characters)
+//   - role: string (required, must be 'user' on creation, immutable for clients)
+//   - createdAt: timestamp (creation time, immutable on update)
+//
+// ===============================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isValidEmail(email) {
+      return email is string &&
+        email.size() > 3 &&
+        email.size() <= 150 &&
+        email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+    }
+
+    function hasOnlyAllowedFields(fields) {
+      return request.resource.data.keys().hasOnly(fields);
+    }
+
+    function hasRequiredUserFields() {
+      return request.resource.data.keys().hasAll(['uid', 'fullName', 'email', 'role']);
+    }
+
+    function isValidUserData() {
+      return hasOnlyAllowedFields(['uid', 'fullName', 'email', 'role', 'createdAt']) &&
+        hasRequiredUserFields() &&
+        request.resource.data.uid is string &&
+        request.resource.data.fullName is string &&
+        request.resource.data.fullName.size() >= 1 &&
+        request.resource.data.fullName.size() <= 100 &&
+        isValidEmail(request.resource.data.email) &&
+        request.resource.data.role is string;
+    }
+
+    // ===============================================================
+    // Collection Rules
+    // ===============================================================
+
+    match /users/{userId} {
+      // 1. Read: Authenticated user can read only their own profile
+      allow read: if isOwner(userId);
+
+      // 2. Create: Authenticated user can create only their own profile
+      //    - Document ID must equal request.auth.uid
+      //    - data.uid must equal request.auth.uid
+      //    - data.role must be exactly 'user' (no client-side privilege escalation)
+      allow create: if isOwner(userId) &&
+        isValidUserData() &&
+        request.resource.data.uid == userId &&
+        request.resource.data.role == 'user';
+
+      // 3. Update: Authenticated user can update only their own profile
+      //    - Cannot change uid, role, or createdAt
+      allow update: if isOwner(userId) &&
+        isValidUserData() &&
+        request.resource.data.uid == resource.data.uid &&
+        request.resource.data.role == resource.data.role &&
+        (!('createdAt' in resource.data) || request.resource.data.createdAt == resource.data.createdAt);
+
+      // 4. Delete: Prevent deletion of user profiles for Phase 2
+      allow delete: if false;
+    }
+
+    // Default deny for all other collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

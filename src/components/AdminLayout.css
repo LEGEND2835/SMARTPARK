@@ -1,0 +1,214 @@
+.admin-app-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+}
+
+.admin-topbar {
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-main);
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.admin-topbar-left {
+  display: flex;
+  align-items: center;
+}
+
+.admin-brand-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.admin-symbol {
+  width: 24px;
+  height: 24px;
+  background-color: var(--primary);
+  color: #FFFFFF;
+  border-radius: var(--radius-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.admin-brand-text {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-main);
+  letter-spacing: -0.01em;
+}
+
+.admin-console-pill {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background-color: var(--bg-subtle);
+  color: var(--text-muted);
+  border: 1px solid var(--border-main);
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-xs);
+  margin-left: 0.25rem;
+}
+
+.admin-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.admin-telemetry-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.78125rem;
+  color: var(--accent-green-text);
+  background-color: var(--accent-green-light);
+  border: 1px solid var(--accent-green-border);
+  padding: 0.25rem 0.55rem;
+  border-radius: var(--radius-xs);
+  font-weight: 500;
+}
+
+.telemetry-live-dot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--accent-green);
+  border-radius: 50%;
+}
+
+.btn-exit-admin {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--border-main);
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-surface);
+  transition: all 0.15s ease;
+}
+
+.btn-exit-admin:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-main);
+}
+
+.admin-body-layout {
+  display: flex;
+  flex: 1;
+}
+
+.admin-sidebar {
+  width: 240px;
+  background-color: var(--bg-surface);
+  border-right: 1px solid var(--border-main);
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.sidebar-section-title {
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  color: var(--text-subdued);
+  padding: 0 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.admin-nav-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.admin-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  font-size: 0.84375rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: all 0.15s ease;
+  border: 1px solid transparent;
+}
+
+.admin-nav-item:hover {
+  background-color: var(--bg-subtle);
+  color: var(--text-main);
+}
+
+.admin-nav-item.active {
+  background-color: var(--bg-subtle);
+  color: var(--text-main);
+  font-weight: 600;
+  border-color: var(--border-main);
+}
+
+.sidebar-footer-card {
+  margin-top: auto;
+  padding: 0.85rem;
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-main);
+  border-radius: var(--radius-sm);
+}
+
+.sidebar-hub-title {
+  font-size: 0.78125rem;
+  font-weight: 600;
+  color: var(--text-main);
+  display: block;
+}
+
+.sidebar-hub-desc {
+  font-size: 0.71875rem;
+  color: var(--text-muted);
+  margin: 0.25rem 0 0.5rem;
+  line-height: 1.35;
+}
+
+.sidebar-ver {
+  font-size: 0.6875rem;
+  color: var(--text-subdued);
+  font-family: var(--font-mono);
+}
+
+.admin-main-content {
+  flex: 1;
+  padding: 2rem 2.5rem;
+  max-width: 1300px;
+}
+
+@media (max-width: 860px) {
+  .admin-body-layout {
+    flex-direction: column;
+  }
+  .admin-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border-main);
+  }
+  .admin-main-content {
+    padding: 1.5rem 1rem;
+  }
+}

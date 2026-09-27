@@ -1,0 +1,291 @@
+.confirmation-page {
+  padding: 3rem 1.5rem 5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.confirmation-card-wrapper {
+  max-width: 580px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.confirmation-header-banner {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.permit-status-tag {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent-green-text);
+  background-color: var(--accent-green-light);
+  border: 1px solid var(--accent-green-border);
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-xs);
+  margin-bottom: 0.75rem;
+}
+
+.conf-title {
+  font-size: 1.625rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--text-main);
+  margin: 0 0 0.5rem;
+}
+
+.conf-subtitle {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Parking Pass Ticket */
+.parking-pass-ticket {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-main);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.ticket-top {
+  padding: 1.5rem 1.75rem 1.25rem;
+  background-color: var(--bg-surface);
+}
+
+.ticket-brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.ticket-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.t-symbol {
+  width: 20px;
+  height: 20px;
+  background-color: var(--primary);
+  color: #FFFFFF;
+  border-radius: var(--radius-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6875rem;
+  font-weight: 700;
+}
+
+.t-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.ticket-main-grid {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+.ticket-garage-col {
+  flex: 1;
+}
+
+.t-label {
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-subdued);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.t-garage-name {
+  font-size: 1.1875rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0 0 0.2rem;
+  letter-spacing: -0.015em;
+}
+
+.t-garage-addr {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.ticket-slot-col {
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-main);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 80px;
+}
+
+.t-slot-num {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.1;
+  margin: 0.15rem 0;
+}
+
+.t-slot-floor {
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+}
+
+/* Perforation */
+.ticket-notch-divider {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 20px;
+  background-color: var(--bg-main);
+}
+
+.notch {
+  width: 14px;
+  height: 20px;
+  background-color: var(--bg-main);
+  position: absolute;
+  z-index: 2;
+}
+
+.notch-left {
+  left: -1px;
+  border-radius: 0 10px 10px 0;
+  border: 1px solid var(--border-main);
+  border-left: none;
+  background-color: var(--bg-main);
+}
+
+.notch-right {
+  right: -1px;
+  border-radius: 10px 0 0 10px;
+  border: 1px solid var(--border-main);
+  border-right: none;
+  background-color: var(--bg-main);
+}
+
+.notch-line {
+  width: 100%;
+  border-bottom: 1px dashed var(--border-strong);
+  margin: 0 20px;
+}
+
+/* Ticket Bottom */
+.ticket-bottom {
+  padding: 1.5rem 1.75rem 1.75rem;
+  background-color: var(--bg-surface);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.ticket-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.85rem;
+}
+
+.t-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.t-value {
+  font-size: 0.84375rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.ticket-qr-section {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1rem;
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+}
+
+.qr-box-simulated {
+  width: 70px;
+  height: 70px;
+  background-color: #FFFFFF;
+  border: 1px solid var(--border-main);
+  border-radius: var(--radius-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.qr-pattern {
+  font-size: 0.625rem;
+  color: var(--text-main);
+  letter-spacing: 0.1em;
+}
+
+.qr-center-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: bold;
+}
+
+.qr-instructions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.qr-instructions strong {
+  font-size: 0.8125rem;
+  color: var(--text-main);
+}
+
+.qr-instructions p {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.35;
+}
+
+.qr-id-code {
+  font-size: 0.6875rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  background-color: var(--bg-subtle);
+  padding: 0.15rem 0.4rem;
+  border-radius: var(--radius-xs);
+  width: fit-content;
+  margin-top: 0.25rem;
+}
+
+.confirmation-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}

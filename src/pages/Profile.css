@@ -1,0 +1,443 @@
+.profile-page {
+  padding-top: 1.5rem;
+  padding-bottom: 3.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Header Panel */
+.profile-header-panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-main);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.profile-identity {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.profile-avatar-symbol {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-sm);
+  background: var(--primary);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+}
+
+.profile-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.profile-name-tier {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.profile-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.profile-role-tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-main);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+
+.profile-role-tag.role-admin {
+  background: #141413;
+  color: #ffffff;
+  border-color: #141413;
+}
+
+.profile-email-text {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.profile-meta-tags {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.profile-meta-tags code {
+  font-family: var(--font-mono);
+  background: var(--bg-subtle);
+  padding: 1px 4px;
+  border-radius: var(--radius-xs);
+}
+
+.profile-dot {
+  color: var(--border-main);
+}
+
+.profile-actions-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Notification banner */
+.profile-notification {
+  background: var(--accent-green-light);
+  border: 1px solid var(--accent-green-border);
+  color: var(--accent-green-text);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-xs);
+  font-size: 0.875rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.notification-icon {
+  font-weight: 700;
+}
+
+/* Settings Layout */
+.profile-settings-layout {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.profile-main-col,
+.profile-side-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.profile-section-heading {
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.profile-section-heading.flex-between {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin: 0 0 2px 0;
+  letter-spacing: -0.01em;
+}
+
+.section-desc {
+  font-size: 0.78125rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Profile Data Rows */
+.profile-data-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-data-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 0.875rem;
+}
+
+.profile-data-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.data-key {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.data-val {
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.plate-badge-clean {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-main);
+  padding: 2px 8px;
+  border-radius: var(--radius-xs);
+  color: var(--text-main);
+}
+
+.pass-enabled {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--accent-green-text);
+  font-size: 0.8125rem;
+}
+
+.status-dot-active {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--accent-green);
+}
+
+/* Edit Form */
+.profile-form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-input-disabled {
+  background: var(--bg-subtle);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+.form-actions-inline {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+/* Registered Vehicles */
+.vehicle-fleet-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.vehicle-fleet-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.875rem 1rem;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-main);
+  border-radius: var(--radius-sm);
+}
+
+.primary-vehicle-card {
+  border-color: var(--accent-green-border);
+  background: var(--accent-green-light);
+}
+
+.vehicle-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.vehicle-topline {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.vehicle-model {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.primary-pill {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent-green-text);
+  background: #ffffff;
+  border: 1px solid var(--accent-green-border);
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+}
+
+.vehicle-subplate {
+  font-family: var(--font-mono);
+  font-size: 0.78125rem;
+  color: var(--text-secondary);
+}
+
+.ev-support-tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent-green-text);
+  background: #ffffff;
+  border: 1px solid var(--accent-green-border);
+  padding: 2px 8px;
+  border-radius: var(--radius-xs);
+}
+
+.vehicle-type-tag {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+/* Preferences switches */
+.profile-switches-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.pref-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  cursor: pointer;
+}
+
+.pref-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pref-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.pref-help {
+  font-size: 0.78125rem;
+  color: var(--text-secondary);
+}
+
+.clean-toggle {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 36px;
+  height: 20px;
+  background: var(--border-main);
+  border-radius: var(--radius-full);
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.15s ease;
+  flex-shrink: 0;
+}
+
+.clean-toggle::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #ffffff;
+  transition: transform 0.15s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.clean-toggle:checked {
+  background: var(--accent-green);
+}
+
+.clean-toggle:checked::after {
+  transform: translateX(16px);
+}
+
+/* Card on file */
+.card-on-file {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.875rem 1rem;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-main);
+  border-radius: var(--radius-sm);
+}
+
+.card-visual-chip {
+  padding: 0.35rem 0.65rem;
+  background: #141413;
+  color: #ffffff;
+  border-radius: var(--radius-xs);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.chip-brand {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.chip-dots {
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.card-file-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.card-file-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.card-file-exp {
+  font-size: 0.78125rem;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 900px) {
+  .profile-settings-layout {
+    grid-template-columns: 1fr;
+  }
+}

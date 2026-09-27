@@ -1,0 +1,54 @@
+.smartpark-error-state {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-6);
+  background-color: var(--danger-subtle);
+  border: 1px solid var(--danger-border);
+  border-radius: var(--radius-lg);
+  color: var(--text-main);
+  box-sizing: border-box;
+}
+
+.smartpark-error-state.is-compact {
+  padding: var(--space-3) var(--space-4);
+  gap: var(--space-3);
+  border-radius: var(--radius-md);
+}
+
+.error-state-icon-box {
+  color: var(--danger);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.error-state-content {
+  flex: 1;
+}
+
+.error-state-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  margin: 0 0 2px;
+  color: var(--text-main);
+}
+
+.error-state-message {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.error-state-action {
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .smartpark-error-state {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

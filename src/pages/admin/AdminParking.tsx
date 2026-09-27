@@ -1,11 +1,21 @@
 import React, { useState } from 'react';
 import { mockParkingLocations, type ParkingLocation } from '../../data/mockData';
+import { useTranslation } from '../../i18n';
 import StatusBadge from '../../components/StatusBadge';
 import Button from '../../components/Button';
 import Card from '../../components/Card';
+import {
+  BuildingIcon,
+  MapPinIcon,
+  CheckCircle2Icon,
+  XIcon,
+  CheckIcon,
+  LayersIcon
+} from '../../components/Icons';
 import './AdminPages.css';
 
 export const AdminParking: React.FC = () => {
+  const { t } = useTranslation();
   const [locations, setLocations] = useState<ParkingLocation[]>(mockParkingLocations);
   const [notice, setNotice] = useState<string | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -15,9 +25,9 @@ export const AdminParking: React.FC = () => {
   const [newPrice, setNewPrice] = useState(4.0);
 
   const handleDelete = (id: string, name: string) => {
-    if (confirm(`Are you sure you want to remove "${name}" from the active city network (UI Demonstration)?`)) {
+    if (confirm(`${t('common.confirm') || 'Confirm'}: ${name}?`)) {
       setLocations((prev) => prev.filter((loc) => loc.id !== id));
-      setNotice(`Facility "${name}" removed from local list.`);
+      setNotice(`${t('admin.colFacility')}: "${name}" ${t('status.unavailable').toLowerCase()}.`);
       setTimeout(() => setNotice(null), 3500);
     }
   };
@@ -47,7 +57,7 @@ export const AdminParking: React.FC = () => {
     setShowAddModal(false);
     setNewFacilityName('');
     setNewAddress('');
-    setNotice(`New facility "${newLoc.name}" added to the network (Mock Mode)!`);
+    setNotice(`${t('admin.addNewFacility')}: "${newLoc.name}" (${t('status.available')})`);
     setTimeout(() => setNotice(null), 4000);
   };
 
@@ -55,47 +65,56 @@ export const AdminParking: React.FC = () => {
     <div className="admin-page">
       {/* Header */}
       <div className="admin-page-header">
-        <div>
-          <span className="admin-badge-sub">FACILITIES DIRECTORY</span>
-          <h1 className="admin-page-title">Facility Management</h1>
+        <div className="admin-header-titles">
+          <div className="admin-pill-tag">
+            <BuildingIcon size={13} />
+            <span>{t('admin.manageFacilities')}</span>
+          </div>
+          <h1 className="admin-page-title">{t('admin.facilityInventoryTitle')}</h1>
           <p className="admin-page-sub">
-            Add connected garages, configure bay allocations, update hourly tariffs, and inspect IoT telemetry.
+            {t('admin.facilityInventorySub')}
           </p>
         </div>
         <Button
           type="button"
           variant="primary"
           size="sm"
+          icon={<BuildingIcon size={14} />}
           onClick={() => setShowAddModal(true)}
         >
-          Add New Facility
+          {t('admin.addNewFacility')}
         </Button>
       </div>
 
       {notice && (
         <div className="admin-alert-banner" role="status">
-          <span>✓</span>
+          <CheckCircle2Icon size={16} />
           <span>{notice}</span>
         </div>
       )}
 
       {/* Add Facility Modal / Card */}
       {showAddModal && (
-        <Card className="admin-form-modal-card" padding="lg">
+        <Card className="admin-form-modal-card" padding="lg" elevation="md">
           <div className="modal-header-row">
             <div>
-              <h3 className="modal-title">Register Connected Facility</h3>
-              <p className="modal-sub">Add a connected city garage to the SmartPark network.</p>
+              <h3 className="modal-title">{t('admin.addNewFacility')}</h3>
+              <p className="modal-sub">{t('admin.facilityInventorySub')}</p>
             </div>
-            <button type="button" className="close-btn" onClick={() => setShowAddModal(false)}>
-              ✕
+            <button
+              type="button"
+              className="close-btn"
+              onClick={() => setShowAddModal(false)}
+              aria-label={t('common.close')}
+            >
+              <XIcon size={16} />
             </button>
           </div>
 
           <form onSubmit={handleAddFacility} className="admin-modal-form">
             <div className="form-row-2">
               <div className="form-group">
-                <label htmlFor="f-name" className="form-label">Facility Name</label>
+                <label htmlFor="f-name" className="form-label">{t('admin.colFacility')}</label>
                 <input
                   id="f-name"
                   type="text"
@@ -107,7 +126,7 @@ export const AdminParking: React.FC = () => {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="f-addr" className="form-label">Street Address</label>
+                <label htmlFor="f-addr" className="form-label">{t('detail.facilityLocation')}</label>
                 <input
                   id="f-addr"
                   type="text"
@@ -122,7 +141,7 @@ export const AdminParking: React.FC = () => {
 
             <div className="form-row-2">
               <div className="form-group">
-                <label htmlFor="f-slots" className="form-label">Total Slot Capacity</label>
+                <label htmlFor="f-slots" className="form-label">{t('parking.capacity')}</label>
                 <input
                   id="f-slots"
                   type="number"
@@ -134,7 +153,7 @@ export const AdminParking: React.FC = () => {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="f-price" className="form-label">Hourly Rate ($)</label>
+                <label htmlFor="f-price" className="form-label">{t('detail.hourlyRate')} ($)</label>
                 <input
                   id="f-price"
                   type="number"
@@ -149,11 +168,11 @@ export const AdminParking: React.FC = () => {
             </div>
 
             <div className="modal-btn-row">
-              <Button type="submit" variant="primary" size="md">
-                Publish Facility
+              <Button type="submit" variant="primary" size="md" icon={<CheckIcon size={14} />}>
+                {t('common.save')}
               </Button>
               <Button type="button" variant="secondary" size="md" onClick={() => setShowAddModal(false)}>
-                Cancel
+                {t('common.cancel')}
               </Button>
             </div>
           </form>
@@ -161,18 +180,18 @@ export const AdminParking: React.FC = () => {
       )}
 
       {/* Facilities Table */}
-      <Card className="admin-card" padding="none">
+      <Card className="admin-card" padding="none" elevation="sm">
         <div className="table-responsive-wrapper">
           <table className="admin-table">
             <thead>
               <tr>
-                <th>Facility Name & Location</th>
-                <th>Capacity</th>
-                <th>Availability</th>
-                <th>Rate ($/hr)</th>
-                <th>Operating Hours</th>
-                <th>Telemetry</th>
-                <th>Actions</th>
+                <th>{t('admin.colFacility')}</th>
+                <th>{t('parking.capacity')}</th>
+                <th>{t('status.available')}</th>
+                <th>{t('detail.hourlyRate')}</th>
+                <th>{t('parking.hours')}</th>
+                <th>{t('admin.colStatus')}</th>
+                <th>{t('admin.operationsHubTag')}</th>
               </tr>
             </thead>
             <tbody>
@@ -183,25 +202,31 @@ export const AdminParking: React.FC = () => {
                     <td>
                       <div className="fac-table-col">
                         <strong className="fac-title-strong">{loc.name}</strong>
-                        <span className="fac-addr-muted">{loc.address}</span>
+                        <span className="fac-addr-muted">
+                          <MapPinIcon size={12} /> {loc.address}
+                        </span>
                       </div>
                     </td>
                     <td>
-                      <span className="capacity-pill">{loc.totalSlots} Bays</span>
+                      <span className="capacity-pill">
+                        <LayersIcon size={11} /> {loc.totalSlots} {t('common.bays')}
+                      </span>
                     </td>
                     <td>
                       <StatusBadge
                         status={isAvail ? 'available' : 'occupied'}
-                        label={`${loc.availableSlots} Free`}
+                        label={`${loc.availableSlots} ${t('common.free')}`}
                         size="sm"
                       />
                     </td>
                     <td>
-                      <strong>${loc.pricePerHour.toFixed(2)}/hr</strong>
+                      <strong>${loc.pricePerHour.toFixed(2)}/{t('common.hr')}</strong>
                     </td>
                     <td>{loc.operatingHours}</td>
                     <td>
-                      <span className="hw-status-pill">Active Gateway</span>
+                      <span className="hw-status-pill">
+                        <CheckCircle2Icon size={12} /> {t('status.active')}
+                      </span>
                     </td>
                     <td>
                       <div className="action-btn-group">
@@ -210,14 +235,14 @@ export const AdminParking: React.FC = () => {
                           className="table-btn-edit"
                           onClick={() => alert(`Edit facility settings for ${loc.name} (Demo Mode)`)}
                         >
-                          Edit
+                          {t('common.edit')}
                         </button>
                         <button
                           type="button"
                           className="table-btn-del"
                           onClick={() => handleDelete(loc.id, loc.name)}
                         >
-                          Delete
+                          {t('common.delete')}
                         </button>
                       </div>
                     </td>
@@ -233,3 +258,4 @@ export const AdminParking: React.FC = () => {
 };
 
 export default AdminParking;
+

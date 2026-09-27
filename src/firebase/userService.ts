@@ -60,3 +60,21 @@ export async function getUserProfile(uid: string): Promise<UserProfile | null> {
     return null;
   }
 }
+
+/**
+ * Updates a user profile in Firestore
+ */
+export async function updateUserProfile(
+  uid: string,
+  data: { fullName: string; email?: string }
+): Promise<void> {
+  const userRef = doc(db, "users", uid);
+  await setDoc(
+    userRef,
+    {
+      fullName: data.fullName.trim(),
+    },
+    { merge: true }
+  );
+}
+

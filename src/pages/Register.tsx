@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
+import { useTranslation } from '../i18n';
 import { registerUser, getFriendlyAuthErrorMessage } from '../firebase/authService';
 import { createUserProfile } from '../firebase/userService';
 import { useAuth } from '../context/AuthContext';
+import { ParkingIcon, AlertCircleIcon, EyeIcon, EyeOffIcon, ArrowRightIcon } from '../components/Icons';
 import './AuthForm.css';
 
 export const Register: React.FC = () => {
   const navigate = useNavigate();
   const { refreshUserProfile } = useAuth();
+  const { t } = useTranslation();
 
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -27,22 +30,22 @@ export const Register: React.FC = () => {
     const trimmedEmail = email.trim();
 
     if (!trimmedName || !trimmedEmail || !password || !confirmPassword) {
-      setError('Please fill in all required registration fields.');
+      setError(t('auth.fillAllFieldsError'));
       return;
     }
 
     if (password.length < 6) {
-      setError('Password must be at least 6 characters long.');
+      setError(t('auth.passwordLengthError'));
       return;
     }
 
     if (password !== confirmPassword) {
-      setError('Passwords do not match. Please verify both password fields.');
+      setError(t('auth.passwordMismatchError'));
       return;
     }
 
     if (!agreeTerms) {
-      setError('Please agree to the SmartPark Terms of Service.');
+      setError(t('auth.termsRequiredError'));
       return;
     }
 
@@ -78,17 +81,21 @@ export const Register: React.FC = () => {
     <div className="auth-page">
       <div className="auth-card">
         <div className="auth-header">
-          <Link to="/" className="auth-brand-link">
-            <span className="auth-brand-icon">P</span>
-            <span className="auth-brand-text">SmartPark</span>
+          <Link to="/" className="auth-brand-link" aria-label="SmartPark">
+            <div className="auth-brand-badge">
+              <ParkingIcon size={20} />
+            </div>
+            <span className="auth-brand-text">
+              Smart<span className="brand-accent">Park</span>
+            </span>
           </Link>
-          <h1 className="auth-title">Create a SmartPark Account</h1>
-          <p className="auth-subtitle">Join the urban parking network to reserve bays across all city facilities.</p>
+          <h1 className="auth-title">{t('auth.createAccountTitle')}</h1>
+          <p className="auth-subtitle">{t('auth.createAccountSub')}</p>
         </div>
 
         {error && (
           <div className="auth-alert alert-error" role="alert">
-            <span>⚠️</span>
+            <AlertCircleIcon size={16} className="alert-icon" />
             <span>{error}</span>
           </div>
         )}
@@ -96,13 +103,13 @@ export const Register: React.FC = () => {
         <form className="auth-form" onSubmit={handleSubmit} noValidate>
           <div className="form-group">
             <label htmlFor="fullName" className="form-label">
-              Full Name
+              {t('auth.fullNameLabel')}
             </label>
             <input
               id="fullName"
               type="text"
               className="form-input"
-              placeholder="Kabish Barua"
+              placeholder={t('auth.fullNamePlaceholder')}
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               required
@@ -113,13 +120,13 @@ export const Register: React.FC = () => {
 
           <div className="form-group">
             <label htmlFor="email" className="form-label">
-              Email Address
+              {t('auth.emailLabel')}
             </label>
             <input
               id="email"
               type="email"
               className="form-input"
-              placeholder="you@example.com"
+              placeholder={t('auth.emailPlaceholder')}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -130,14 +137,14 @@ export const Register: React.FC = () => {
 
           <div className="form-group">
             <label htmlFor="password" className="form-label">
-              Password
+              {t('auth.passwordLabel')}
             </label>
             <div className="password-input-wrapper">
               <input
                 id="password"
                 type={showPassword ? 'text' : 'password'}
                 className="form-input"
-                placeholder="At least 6 characters"
+                placeholder={t('auth.passwordPlaceholder')}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -148,23 +155,23 @@ export const Register: React.FC = () => {
                 type="button"
                 className="btn-toggle-password"
                 onClick={() => setShowPassword(!showPassword)}
-                aria-label={showPassword ? 'Hide password' : 'Show password'}
+                aria-label={showPassword ? t('auth.hidePassword') : t('auth.showPassword')}
                 tabIndex={-1}
               >
-                {showPassword ? '👁️' : '👁️‍🗨️'}
+                {showPassword ? <EyeOffIcon size={16} /> : <EyeIcon size={16} />}
               </button>
             </div>
           </div>
 
           <div className="form-group">
             <label htmlFor="confirmPassword" className="form-label">
-              Confirm Password
+              {t('auth.confirmPasswordLabel')}
             </label>
             <input
               id="confirmPassword"
               type={showPassword ? 'text' : 'password'}
               className="form-input"
-              placeholder="Re-enter your password"
+              placeholder={t('auth.confirmPasswordPlaceholder')}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
@@ -173,15 +180,15 @@ export const Register: React.FC = () => {
             />
           </div>
 
-          <div className="form-group">
-            <label className="checkbox-label" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', color: 'var(--color-text-muted)', cursor: 'pointer' }}>
+          <div className="form-group checkbox-group">
+            <label className="checkbox-label">
               <input
                 type="checkbox"
                 checked={agreeTerms}
                 onChange={(e) => setAgreeTerms(e.target.checked)}
                 disabled={isLoading}
               />
-              <span>I agree to SmartPark's Terms of Service and Privacy Policy</span>
+              <span>{t('auth.agreeTerms')}</span>
             </label>
           </div>
 
@@ -192,15 +199,16 @@ export const Register: React.FC = () => {
             size="lg"
             disabled={isLoading}
           >
-            {isLoading ? 'Creating Account...' : 'Register Account'}
+            <span>{isLoading ? t('auth.creatingAccountBtn') : t('auth.createAccountBtn')}</span>
+            {!isLoading && <ArrowRightIcon size={16} />}
           </Button>
         </form>
 
         <div className="auth-footer">
           <p>
-            Already have an account?{' '}
+            {t('auth.hasAccountPrompt')}{' '}
             <Link to="/login" className="auth-switch-link">
-              Sign in here
+              {t('auth.signInLink')}
             </Link>
           </p>
         </div>
@@ -210,3 +218,4 @@ export const Register: React.FC = () => {
 };
 
 export default Register;
+

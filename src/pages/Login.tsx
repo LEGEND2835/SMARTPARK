@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Button from '../components/Button';
+import { useTranslation } from '../i18n';
 import { loginUser, getFriendlyAuthErrorMessage } from '../firebase/authService';
+import { ParkingIcon, AlertCircleIcon, EyeIcon, EyeOffIcon, ArrowRightIcon } from '../components/Icons';
 import './AuthForm.css';
 
 interface LocationState {
@@ -13,6 +15,7 @@ interface LocationState {
 export const Login: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation();
   const from = (location.state as LocationState)?.from?.pathname || '/dashboard';
 
   const [email, setEmail] = useState('');
@@ -27,7 +30,7 @@ export const Login: React.FC = () => {
 
     const trimmedEmail = email.trim();
     if (!trimmedEmail || !password) {
-      setError('Please enter both your email address and password.');
+      setError(t('auth.fillAllFieldsError'));
       return;
     }
 
@@ -50,17 +53,21 @@ export const Login: React.FC = () => {
     <div className="auth-page">
       <div className="auth-card">
         <div className="auth-header">
-          <Link to="/" className="auth-brand-link">
-            <span className="auth-brand-icon">P</span>
-            <span className="auth-brand-text">SmartPark</span>
+          <Link to="/" className="auth-brand-link" aria-label="SmartPark">
+            <div className="auth-brand-badge">
+              <ParkingIcon size={20} />
+            </div>
+            <span className="auth-brand-text">
+              Smart<span className="brand-accent">Park</span>
+            </span>
           </Link>
-          <h1 className="auth-title">Sign In to SmartPark</h1>
-          <p className="auth-subtitle">Access your active parking passes, vehicle profiles, and receipts.</p>
+          <h1 className="auth-title">{t('auth.welcomeBackTitle')}</h1>
+          <p className="auth-subtitle">{t('auth.welcomeBackSub')}</p>
         </div>
 
         {error && (
           <div className="auth-alert alert-error" role="alert">
-            <span>⚠️</span>
+            <AlertCircleIcon size={16} className="alert-icon" />
             <span>{error}</span>
           </div>
         )}
@@ -68,13 +75,13 @@ export const Login: React.FC = () => {
         <form className="auth-form" onSubmit={handleSubmit} noValidate>
           <div className="form-group">
             <label htmlFor="email" className="form-label">
-              Email Address
+              {t('auth.emailLabel')}
             </label>
             <input
               id="email"
               type="email"
               className="form-input"
-              placeholder="you@example.com"
+              placeholder={t('auth.emailPlaceholder')}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -86,7 +93,7 @@ export const Login: React.FC = () => {
           <div className="form-group">
             <div className="label-row">
               <label htmlFor="password" className="form-label">
-                Password
+                {t('auth.passwordLabel')}
               </label>
             </div>
             <div className="password-input-wrapper">
@@ -94,7 +101,7 @@ export const Login: React.FC = () => {
                 id="password"
                 type={showPassword ? 'text' : 'password'}
                 className="form-input"
-                placeholder="••••••••"
+                placeholder={t('auth.passwordPlaceholder')}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -105,10 +112,10 @@ export const Login: React.FC = () => {
                 type="button"
                 className="btn-toggle-password"
                 onClick={() => setShowPassword(!showPassword)}
-                aria-label={showPassword ? 'Hide password' : 'Show password'}
+                aria-label={showPassword ? t('auth.hidePassword') : t('auth.showPassword')}
                 tabIndex={-1}
               >
-                {showPassword ? '👁️' : '👁️‍🗨️'}
+                {showPassword ? <EyeOffIcon size={16} /> : <EyeIcon size={16} />}
               </button>
             </div>
           </div>
@@ -120,15 +127,16 @@ export const Login: React.FC = () => {
             size="lg"
             disabled={isLoading}
           >
-            {isLoading ? 'Signing In...' : 'Sign In to SmartPark'}
+            <span>{isLoading ? t('auth.signingInBtn') : t('auth.signInBtn')}</span>
+            {!isLoading && <ArrowRightIcon size={16} />}
           </Button>
         </form>
 
         <div className="auth-footer">
           <p>
-            Don't have an account yet?{' '}
+            {t('auth.noAccountPrompt')}{' '}
             <Link to="/register" className="auth-switch-link">
-              Create an account
+              {t('auth.createAccountLink')}
             </Link>
           </p>
         </div>
@@ -138,3 +146,4 @@ export const Login: React.FC = () => {
 };
 
 export default Login;
+

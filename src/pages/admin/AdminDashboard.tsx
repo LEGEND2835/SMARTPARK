@@ -1,77 +1,121 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { mockAdminStats, mockParkingLocations, mockBookings } from '../../data/mockData';
+import { useTranslation } from '../../i18n';
 import StatusBadge from '../../components/StatusBadge';
 import Button from '../../components/Button';
 import Card from '../../components/Card';
+import {
+  BuildingIcon,
+  ParkingIcon,
+  TicketIcon,
+  BarChart3Icon,
+  ArrowRightIcon,
+  LayersIcon,
+  MapPinIcon,
+  CheckCircle2Icon,
+  ClockIcon
+} from '../../components/Icons';
 import './AdminPages.css';
 
 export const AdminDashboard: React.FC = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="admin-page">
       {/* Header */}
       <div className="admin-page-header">
-        <div>
-          <span className="admin-badge-sub">OPERATIONS & OCCUPANCY</span>
-          <h1 className="admin-page-title">City Parking Control Hub</h1>
+        <div className="admin-header-titles">
+          <div className="admin-pill-tag">
+            <BarChart3Icon size={13} />
+            <span>{t('admin.operationsHubTag')}</span>
+          </div>
+          <h1 className="admin-page-title">{t('admin.pageTitle')}</h1>
           <p className="admin-page-sub">
-            Real-time IoT telemetry, automated barrier events, and live occupancy across all 5 municipal facilities.
+            {t('admin.pageSub')}
           </p>
         </div>
         <div className="admin-header-actions">
-          <Button to="/admin/parking" variant="primary" size="sm">
-            Manage Facilities
+          <Button to="/admin/parking" variant="primary" size="sm" icon={<BuildingIcon size={14} />}>
+            {t('admin.manageFacilities')}
           </Button>
-          <Button to="/admin/reservations" variant="secondary" size="sm">
-            All Reservations
+          <Button to="/admin/reservations" variant="secondary" size="sm" icon={<TicketIcon size={14} />}>
+            {t('admin.allReservations')}
           </Button>
         </div>
       </div>
 
       {/* Admin KPI Stats Grid */}
       <div className="admin-kpi-grid">
-        <Card className="kpi-card">
-          <span className="kpi-title">Active Facilities</span>
+        <Card className="kpi-card" padding="md" elevation="sm">
+          <div className="kpi-top">
+            <span className="kpi-title">{t('admin.activeFacilitiesKpi')}</span>
+            <div className="kpi-icon-pill">
+              <BuildingIcon size={15} />
+            </div>
+          </div>
           <span className="kpi-val">{mockAdminStats.totalLocations}</span>
-          <span className="kpi-sub status-green">100% Online & Synced</span>
+          <span className="kpi-sub status-green">
+            <CheckCircle2Icon size={12} /> {t('admin.facilitiesOnlineStatus')}
+          </span>
         </Card>
 
-        <Card className="kpi-card">
-          <span className="kpi-title">Monitored Bays</span>
+        <Card className="kpi-card" padding="md" elevation="sm">
+          <div className="kpi-top">
+            <span className="kpi-title">{t('admin.monitoredBaysKpi')}</span>
+            <div className="kpi-icon-pill">
+              <ParkingIcon size={15} />
+            </div>
+          </div>
           <span className="kpi-val">{mockAdminStats.totalSlots}</span>
-          <span className="kpi-sub">5 Downtown Garages</span>
+          <span className="kpi-sub">{t('admin.garagesCountSubtitle')}</span>
         </Card>
 
-        <Card className="kpi-card">
-          <span className="kpi-title">Active Passes</span>
+        <Card className="kpi-card" padding="md" elevation="sm">
+          <div className="kpi-top">
+            <span className="kpi-title">{t('admin.activePassesKpi')}</span>
+            <div className="kpi-icon-pill">
+              <TicketIcon size={15} />
+            </div>
+          </div>
           <span className="kpi-val">{mockAdminStats.activeReservations}</span>
-          <span className="kpi-sub">Currently parked</span>
+          <span className="kpi-sub">{t('admin.currentlyParkedSubtitle')}</span>
         </Card>
 
-        <Card className="kpi-card">
-          <span className="kpi-title">Est. Revenue (Today)</span>
+        <Card className="kpi-card" padding="md" elevation="sm">
+          <div className="kpi-top">
+            <span className="kpi-title">{t('admin.revenueTodayKpi')}</span>
+            <div className="kpi-icon-pill">
+              <BarChart3Icon size={15} />
+            </div>
+          </div>
           <span className="kpi-val">${mockAdminStats.totalRevenueToday.toFixed(2)}</span>
-          <span className="kpi-sub status-green">+14.2% vs last week</span>
+          <span className="kpi-sub status-green">{t('admin.revenueTrendSubtitle')}</span>
         </Card>
 
-        <Card className="kpi-card">
-          <span className="kpi-title">Citywide Occupancy</span>
+        <Card className="kpi-card" padding="md" elevation="sm">
+          <div className="kpi-top">
+            <span className="kpi-title">{t('admin.occupancyRateKpi')}</span>
+            <div className="kpi-icon-pill">
+              <LayersIcon size={15} />
+            </div>
+          </div>
           <span className="kpi-val">{mockAdminStats.occupancyRate}%</span>
-          <span className="kpi-sub">Optimal capacity</span>
+          <span className="kpi-sub">{t('admin.nominalCapacitySubtitle')}</span>
         </Card>
       </div>
 
       {/* Live Occupancy Facility Breakdown */}
       <div className="admin-grid-columns">
         <div className="admin-col-left">
-          <Card className="admin-card" padding="lg">
+          <Card className="admin-card" padding="lg" elevation="sm">
             <div className="admin-card-header-flex">
               <div>
-                <h2 className="admin-card-title">Live Facility Occupancy</h2>
-                <p className="admin-card-sub">Real-time ultrasonic bay detector counts per parking structure.</p>
+                <h2 className="admin-card-title">{t('admin.liveOccupancyTitle')}</h2>
+                <p className="admin-card-sub">{t('admin.liveOccupancySub')}</p>
               </div>
               <Link to="/admin/parking" className="admin-link">
-                Configure Facilities →
+                {t('admin.configureFacilitiesLink')} <ArrowRightIcon size={12} />
               </Link>
             </div>
 
@@ -83,11 +127,13 @@ export const AdminDashboard: React.FC = () => {
                     <div className="fac-occ-header">
                       <div className="fac-occ-title-group">
                         <span className="fac-name">{loc.name}</span>
-                        <span className="fac-city-pill">{loc.distance}</span>
+                        <span className="fac-city-pill">
+                          <MapPinIcon size={10} /> {loc.distance}
+                        </span>
                       </div>
                       <div className="fac-occ-nums">
                         <span className="fac-slots-count">
-                          <strong>{loc.availableSlots}</strong> free of {loc.totalSlots}
+                          <strong>{loc.availableSlots}</strong> {t('admin.freeOfTotal')} {loc.totalSlots}
                         </span>
                         <span className="fac-percent">{occ}%</span>
                       </div>
@@ -108,40 +154,48 @@ export const AdminDashboard: React.FC = () => {
 
         {/* Recent Admin Activity / Feed */}
         <div className="admin-col-right">
-          <Card className="admin-card" padding="lg">
-            <h2 className="admin-card-title">Recent Gate Events</h2>
-            <p className="admin-card-sub">License plate recognition (ALPR) automated barrier log.</p>
+          <Card className="admin-card" padding="lg" elevation="sm">
+            <h2 className="admin-card-title">{t('admin.recentGateEventsTitle')}</h2>
+            <p className="admin-card-sub">{t('admin.recentGateEventsSub')}</p>
 
             <div className="admin-gate-feed">
               <div className="feed-item">
-                <span className="feed-badge badge-entry">ENTRY</span>
+                <span className="feed-badge badge-entry">{t('admin.badgeEntry')}</span>
                 <div className="feed-info">
                   <span className="feed-text">Plate <strong>KA-05-MN-2024</strong> entered Bay A-04</span>
-                  <span className="feed-time">2 mins ago • Metro Central</span>
+                  <span className="feed-time">
+                    <ClockIcon size={11} /> 2 mins ago • Metro Central
+                  </span>
                 </div>
               </div>
 
               <div className="feed-item">
-                <span className="feed-badge badge-exit">EXIT</span>
+                <span className="feed-badge badge-exit">{t('admin.badgeExit')}</span>
                 <div className="feed-info">
                   <span className="feed-text">Plate <strong>DL-08-CC-4321</strong> exited Bay B-11</span>
-                  <span className="feed-time">14 mins ago • Civic Hub</span>
+                  <span className="feed-time">
+                    <ClockIcon size={11} /> 14 mins ago • Civic Hub
+                  </span>
                 </div>
               </div>
 
               <div className="feed-item">
-                <span className="feed-badge badge-entry">ENTRY</span>
+                <span className="feed-badge badge-entry">{t('admin.badgeEntry')}</span>
                 <div className="feed-info">
                   <span className="feed-text">Plate <strong>MH-02-EE-9900</strong> entered Bay C-02</span>
-                  <span className="feed-time">22 mins ago • Harbor Point</span>
+                  <span className="feed-time">
+                    <ClockIcon size={11} /> 22 mins ago • Harbor Point
+                  </span>
                 </div>
               </div>
 
               <div className="feed-item">
-                <span className="feed-badge badge-res">BOOKED</span>
+                <span className="feed-badge badge-res">{t('admin.badgeBooked')}</span>
                 <div className="feed-info">
                   <span className="feed-text">Pass issued for Bay D-08</span>
-                  <span className="feed-time">35 mins ago • Tech Park</span>
+                  <span className="feed-time">
+                    <ClockIcon size={11} /> 35 mins ago • Tech Park
+                  </span>
                 </div>
               </div>
             </div>
@@ -150,14 +204,14 @@ export const AdminDashboard: React.FC = () => {
       </div>
 
       {/* Recent Reservations Table */}
-      <Card className="admin-card" padding="lg">
+      <Card className="admin-card" padding="lg" elevation="sm">
         <div className="admin-card-header-flex">
           <div>
-            <h2 className="admin-card-title">Live Reservation Queue</h2>
-            <p className="admin-card-sub">Active and upcoming booked parking sessions across all facilities.</p>
+            <h2 className="admin-card-title">{t('admin.liveReservationQueueTitle')}</h2>
+            <p className="admin-card-sub">{t('admin.liveReservationQueueSub')}</p>
           </div>
           <Link to="/admin/reservations" className="admin-link">
-            Full Reservation Table ({mockBookings.length}) →
+            {t('admin.fullReservationTable')} ({mockBookings.length}) <ArrowRightIcon size={12} />
           </Link>
         </div>
 
@@ -165,13 +219,13 @@ export const AdminDashboard: React.FC = () => {
           <table className="admin-table">
             <thead>
               <tr>
-                <th>Booking ID</th>
-                <th>Driver Name</th>
-                <th>Facility</th>
-                <th>Bay & Floor</th>
-                <th>Schedule</th>
-                <th>Amount</th>
-                <th>Status</th>
+                <th>{t('admin.colBookingId')}</th>
+                <th>{t('admin.colDriver')}</th>
+                <th>{t('admin.colFacility')}</th>
+                <th>{t('admin.colBayLevel')}</th>
+                <th>{t('admin.colSchedule')}</th>
+                <th>{t('admin.colAmount')}</th>
+                <th>{t('admin.colStatus')}</th>
               </tr>
             </thead>
             <tbody>
@@ -186,7 +240,7 @@ export const AdminDashboard: React.FC = () => {
                   </td>
                   <td>{b.parkingName}</td>
                   <td>
-                    <span className="bay-badge">Bay {b.slotNumber} ({b.level})</span>
+                    <span className="bay-badge">{t('dashboard.bayPrefix')} {b.slotNumber} (L{b.level})</span>
                   </td>
                   <td>{b.date} • {b.startTime}</td>
                   <td><strong>${b.totalAmount.toFixed(2)}</strong></td>
@@ -202,3 +256,4 @@ export const AdminDashboard: React.FC = () => {
 };
 
 export default AdminDashboard;
+

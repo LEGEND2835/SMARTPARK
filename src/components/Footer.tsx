@@ -1,65 +1,77 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from '../i18n';
+import { ParkingIcon, ShieldCheckIcon } from './Icons';
 import './Footer.css';
 
 export const Footer: React.FC = () => {
+  const { t } = useTranslation();
+
   return (
     <footer className="smartpark-footer">
       <div className="smartpark-container footer-inner">
         <div className="footer-top-row">
           <div className="footer-brand-col">
             <div className="footer-brand-header">
-              <span className="footer-brand-symbol">P</span>
-              <span className="footer-brand-text">SmartPark</span>
+              <div className="footer-brand-badge">
+                <ParkingIcon size={16} />
+              </div>
+              <span className="footer-brand-text">
+                Smart<span className="brand-accent">Park</span>
+              </span>
             </div>
             <p className="footer-tagline">
-              Urban parking management and instant spot reservation for modern transit hubs.
+              {t('footer.tagline')}
             </p>
             <div className="footer-system-status">
-              <span className="status-indicator-live"></span>
-              <span>All 5 City Garages Operational</span>
+              <span className="status-dot-pulse"></span>
+              <span>{t('footer.allConnected')}</span>
             </div>
           </div>
 
           <div className="footer-links-grid">
             <div className="footer-nav-col">
-              <h4 className="footer-heading">Platform</h4>
+              <h4 className="footer-heading">{t('footer.platformHeading')}</h4>
               <ul className="footer-links-list">
-                <li><Link to="/parking">Find Parking</Link></li>
-                <li><Link to="/bookings">My Reservations</Link></li>
-                <li><Link to="/dashboard">User Dashboard</Link></li>
-                <li><Link to="/profile">Account Settings</Link></li>
+                <li><Link to="/">{t('footer.exploreLink')}</Link></li>
+                <li><Link to="/parking">{t('footer.findParkingLink')}</Link></li>
+                <li><Link to="/bookings">{t('footer.reservationsLink')}</Link></li>
+                <li><Link to="/dashboard">{t('footer.dashboardLink')}</Link></li>
+                <li><Link to="/profile">{t('footer.profileLink')}</Link></li>
               </ul>
             </div>
 
             <div className="footer-nav-col">
-              <h4 className="footer-heading">Operations</h4>
+              <h4 className="footer-heading">{t('footer.operationsHeading')}</h4>
               <ul className="footer-links-list">
-                <li><Link to="/admin">Admin Overview</Link></li>
-                <li><Link to="/admin/parking">Facility Inventory</Link></li>
-                <li><Link to="/admin/reservations">Live Bookings</Link></li>
-                <li><Link to="/login">Operator Sign-in</Link></li>
+                <li><Link to="/admin">{t('footer.adminOverviewLink')}</Link></li>
+                <li><Link to="/admin/parking">{t('footer.facilityInventoryLink')}</Link></li>
+                <li><Link to="/admin/reservations">{t('footer.liveReservationsLink')}</Link></li>
+                <li><Link to="/login">{t('footer.operatorSignInLink')}</Link></li>
               </ul>
             </div>
 
             <div className="footer-nav-col">
-              <h4 className="footer-heading">Capabilities</h4>
+              <h4 className="footer-heading">{t('footer.infraHeading')}</h4>
               <ul className="footer-features-list">
-                <li>EV Fast-Charging Bays</li>
-                <li>Automated License Plate Access</li>
-                <li>Digital Touchless Pass</li>
-                <li>24/7 Monitored Facilities</li>
+                <li>{t('footer.featEvCharging')}</li>
+                <li>{t('footer.featDigitalPermits')}</li>
+                <li>{t('footer.featMonitoredAccess')}</li>
+                <li>{t('footer.featOccupancySync')}</li>
               </ul>
             </div>
           </div>
         </div>
 
         <div className="footer-bottom-row">
-          <p className="footer-copy">© {new Date().getFullYear()} SmartPark Technologies. Urban Mobility Platform.</p>
+          <p className="footer-copy">
+            © {new Date().getFullYear()} SmartPark. {t('footer.copyrightText')}
+          </p>
           <div className="footer-meta-tags">
-            <span>Real-Time Sensor Sync</span>
-            <span>•</span>
-            <span>Zero Search Transit</span>
+            <span className="secure-badge">
+              <ShieldCheckIcon size={14} />
+              <span>{t('footer.securityBadge')}</span>
+            </span>
           </div>
         </div>
       </div>
@@ -68,3 +80,4 @@ export const Footer: React.FC = () => {
 };
 
 export default Footer;
+

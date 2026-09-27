@@ -2,110 +2,161 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.45rem;
+  gap: var(--space-2);
   font-family: inherit;
   font-weight: 500;
+  font-size: 0.875rem;
   text-decoration: none;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   border: 1px solid transparent;
   cursor: pointer;
-  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  transition: all var(--transition-fast);
   line-height: 1.25;
   white-space: nowrap;
   box-sizing: border-box;
+  user-select: none;
+  position: relative;
 }
 
 .btn:focus-visible {
-  outline: 2px solid var(--border-focus);
+  outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
 
-.btn:disabled {
-  opacity: 0.5;
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.55;
   cursor: not-allowed;
   pointer-events: none;
 }
 
-/* Sizes */
+/* Button Sizes */
 .btn-sm {
-  padding: 0.35rem 0.75rem;
+  padding: 0.375rem 0.75rem;
   font-size: 0.8125rem;
-  height: 32px;
+  height: 34px;
 }
 
 .btn-md {
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
-  height: 38px;
+  height: 40px;
 }
 
 .btn-lg {
-  padding: 0.65rem 1.35rem;
+  padding: 0.625rem 1.35rem;
   font-size: 0.9375rem;
-  height: 44px;
+  font-weight: 600;
+  height: 46px;
 }
 
 .btn-full {
   width: 100%;
 }
 
+.btn-label {
+  display: inline-flex;
+  align-items: center;
+}
+
 .btn-icon {
   display: inline-flex;
   align-items: center;
-  font-size: 1em;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
-/* Primary Dark Button */
+.btn-icon svg {
+  width: 1.1em;
+  height: 1.1em;
+}
+
+/* Loading Spinner */
+.btn-loading {
+  cursor: wait;
+}
+
+.btn-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: btn-spin 0.65s linear infinite;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+@keyframes btn-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Primary Action Button (#0CF005 in Dark Mode, #16A34A in Light Mode) */
 .btn-primary {
   background-color: var(--primary);
-  color: var(--text-inverse);
+  color: var(--primary-btn-text, #FFFFFF);
   border-color: var(--primary);
-  box-shadow: var(--shadow-xs);
+  box-shadow: var(--shadow-sm);
+  font-weight: 600;
 }
+
 .btn-primary:hover {
   background-color: var(--primary-hover);
   border-color: var(--primary-hover);
 }
+
 .btn-primary:active {
-  background-color: #000000;
+  background-color: var(--primary-active);
+  transform: scale(0.99);
 }
 
-/* Green Mobility Accent Button */
-.btn-success {
-  background-color: var(--accent-green);
-  color: #FFFFFF;
-  border-color: var(--accent-green);
-  box-shadow: var(--shadow-xs);
-}
-.btn-success:hover {
-  background-color: var(--accent-green-hover);
-  border-color: var(--accent-green-hover);
-}
-
-/* Secondary Button */
+/* Secondary Button (Neutral Surface) */
 .btn-secondary {
   background-color: var(--bg-surface);
   color: var(--text-main);
   border-color: var(--border-main);
   box-shadow: var(--shadow-xs);
 }
+
 .btn-secondary:hover {
   background-color: var(--bg-hover);
   border-color: var(--border-strong);
-}
-.btn-secondary:active {
-  background-color: var(--bg-active);
+  color: var(--text-main);
 }
 
-/* Outline Button */
+.btn-secondary:active {
+  background-color: var(--bg-active);
+  transform: scale(0.99);
+}
+
+/* Outline / Tertiary Button (Low emphasis) */
 .btn-outline {
   background-color: transparent;
   color: var(--text-main);
   border-color: var(--border-main);
 }
+
 .btn-outline:hover {
   background-color: var(--bg-subtle);
   border-color: var(--border-strong);
+  color: var(--text-main);
+}
+
+.btn-outline:active {
+  background-color: var(--bg-hover);
+}
+
+/* Subtle / Green Accent Button */
+.btn-success {
+  background-color: var(--primary-subtle);
+  color: var(--primary-text);
+  border-color: var(--primary-border);
+}
+
+.btn-success:hover {
+  background-color: var(--primary-subtle-hover);
 }
 
 /* Danger Button */
@@ -114,9 +165,14 @@
   color: #FFFFFF;
   border-color: var(--danger);
 }
+
 .btn-danger:hover {
   background-color: var(--danger-hover);
   border-color: var(--danger-hover);
+}
+
+.btn-danger:active {
+  transform: scale(0.99);
 }
 
 /* Ghost Button */
@@ -125,7 +181,12 @@
   color: var(--text-muted);
   border-color: transparent;
 }
+
 .btn-ghost:hover {
   background-color: var(--bg-hover);
   color: var(--text-main);
+}
+
+.btn-ghost:active {
+  background-color: var(--bg-active);
 }

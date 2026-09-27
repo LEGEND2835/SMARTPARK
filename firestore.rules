@@ -56,6 +56,41 @@ service cloud.firestore {
         request.resource.data.role is string;
     }
 
+    function isAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.role == 'admin' ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin')
+      );
+    }
+
+    function hasRequiredBookingFields() {
+      return request.resource.data.keys().hasAll([
+        'id', 'userId', 'parkingId', 'slotNumber', 'date', 'status', 'totalAmount'
+      ]);
+    }
+
+    function isValidBookingCreate(bookingId) {
+      return request.resource.data.userId == request.auth.uid &&
+        request.resource.data.id == bookingId &&
+        hasRequiredBookingFields() &&
+        request.resource.data.status in ['active', 'upcoming'] &&
+        request.resource.data.totalAmount is number &&
+        request.resource.data.totalAmount >= 0;
+    }
+
+    function isValidBookingOwnerUpdate() {
+      return request.resource.data.userId == resource.data.userId &&
+        request.resource.data.id == resource.data.id &&
+        request.resource.data.parkingId == resource.data.parkingId &&
+        request.resource.data.slotNumber == resource.data.slotNumber &&
+        request.resource.data.date == resource.data.date &&
+        request.resource.data.totalAmount == resource.data.totalAmount &&
+        (!('createdAt' in resource.data) || request.resource.data.createdAt == resource.data.createdAt) &&
+        (!('createdAtServer' in resource.data) || request.resource.data.createdAtServer == resource.data.createdAtServer) &&
+        request.resource.data.status in ['active', 'upcoming', 'cancelled', 'completed'];
+    }
+
     // ===============================================================
     // Collection Rules
     // ===============================================================
@@ -82,6 +117,28 @@ service cloud.firestore {
         (!('createdAt' in resource.data) || request.resource.data.createdAt == resource.data.createdAt);
 
       // 4. Delete: Prevent deletion of user profiles for Phase 2
+      allow delete: if false;
+    }
+
+    match /bookings/{bookingId} {
+      // 1. Read: Authenticated user can read only their own bookings, or Admin can read
+      allow read: if isAuthenticated() && (
+        resource.data.userId == request.auth.uid ||
+        isAdmin()
+      );
+
+      // 2. Create: Authenticated user can create only their own reservation
+      allow create: if isAuthenticated() && isValidBookingCreate(bookingId);
+
+      // 3. Update:
+      //    - Owner can update allowed mutable fields (e.g. cancellation) while preserving core immutability
+      //    - Admin can manage bookings
+      allow update: if isAuthenticated() && (
+        (isOwner(resource.data.userId) && isValidBookingOwnerUpdate()) ||
+        isAdmin()
+      );
+
+      // 4. Delete: Disallowed for all clients
       allow delete: if false;
     }
 

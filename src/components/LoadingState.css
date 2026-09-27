@@ -1,0 +1,53 @@
+.smartpark-loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-12) var(--space-6);
+  gap: var(--space-3);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.smartpark-loading-container.is-full-page {
+  min-height: 50vh;
+  width: 100%;
+}
+
+.loading-spinner-ring {
+  border: 3px solid var(--border-main);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: smartpark-spin 0.75s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.loading-spinner-ring.spinner-sm {
+  width: 20px;
+  height: 20px;
+  border-width: 2px;
+}
+
+.loading-spinner-ring.spinner-md {
+  width: 32px;
+  height: 32px;
+  border-width: 3px;
+}
+
+.loading-spinner-ring.spinner-lg {
+  width: 44px;
+  height: 44px;
+  border-width: 4px;
+}
+
+.loading-message-text {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+@keyframes smartpark-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

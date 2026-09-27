@@ -1,0 +1,91 @@
+.smartpark-select-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  box-sizing: border-box;
+}
+
+.smartpark-select-group.group-full {
+  width: 100%;
+}
+
+.smartpark-select-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-main);
+  letter-spacing: -0.01em;
+}
+
+.select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.smartpark-select {
+  width: 100%;
+  height: 42px;
+  padding: 0 2.5rem 0 var(--space-4);
+  font-family: inherit;
+  font-size: 0.875rem;
+  color: var(--text-main);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-main);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xs);
+  appearance: none;
+  cursor: pointer;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
+  box-sizing: border-box;
+}
+
+.smartpark-select:hover:not(:disabled) {
+  border-color: var(--border-strong);
+}
+
+.smartpark-select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-subtle);
+}
+
+.smartpark-select:disabled {
+  background-color: var(--bg-subtle);
+  color: var(--text-muted);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.select-chevron {
+  position: absolute;
+  right: 0.85rem;
+  color: var(--text-muted);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+}
+
+/* Error State */
+.smartpark-select-group.has-error .smartpark-select {
+  border-color: var(--danger);
+}
+
+.smartpark-select-group.has-error .smartpark-select:focus {
+  border-color: var(--danger);
+  box-shadow: 0 0 0 3px var(--danger-subtle);
+}
+
+.smartpark-select-error {
+  font-size: 0.75rem;
+  color: var(--danger);
+  margin: var(--space-1) 0 0;
+  line-height: 1.3;
+}
+
+.smartpark-select-helper {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin: var(--space-1) 0 0;
+  line-height: 1.3;
+}

@@ -1,14 +1,26 @@
 import React, { useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { mockParkingLocations, type ParkingSlot } from '../data/mockData';
+import { useTranslation } from '../i18n';
+import { createBooking } from '../firebase/bookingService';
 import StatusBadge from '../components/StatusBadge';
 import Button from '../components/Button';
 import Card from '../components/Card';
+import {
+  ArrowLeftIcon,
+  MapPinIcon,
+  ClockIcon,
+  BoltIcon,
+  CheckCircle2Icon,
+  CarIcon,
+  ArrowRightIcon,
+} from '../components/Icons';
 import './ParkingDetail.css';
 
 export const ParkingDetail: React.FC = () => {
   const { parkingId } = useParams<{ parkingId: string }>();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   // Find parking by ID or fallback to the first one
   const parking = mockParkingLocations.find((p) => p.id === parkingId) || mockParkingLocations[0];
@@ -19,6 +31,7 @@ export const ParkingDetail: React.FC = () => {
   const [vehiclePlate, setVehiclePlate] = useState<string>('KA-05-MN-2024');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [reservationNotice, setReservationNotice] = useState<string | null>(null);
+  const [reservationError, setReservationError] = useState<string | null>(null);
 
   const filteredSlots = parking.slots.filter((slot) => {
     if (selectedLevel === 'All') return true;
@@ -36,20 +49,50 @@ export const ParkingDetail: React.FC = () => {
     if (slot.status !== 'available') return;
     setSelectedSlot(slot);
     setReservationNotice(null);
+    setReservationError(null);
   };
 
-  const handleReserveSubmit = (e: React.FormEvent) => {
+  const handleReserveSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedSlot) {
-      setReservationNotice('Please select an available parking bay on the floor plan.');
+      setReservationNotice(t('detail.baySelectionRequired'));
       return;
     }
 
     setIsSubmitting(true);
-    setReservationNotice(`Bay ${selectedSlot.slotNumber} selected. Preparing digital pass...`);
-    setTimeout(() => {
-      navigate('/booking/SP-89421');
-    }, 600);
+    setReservationError(null);
+    setReservationNotice(`${t('detail.selectedBayLabel')} ${selectedSlot.slotNumber} — ${t('detail.reservingBay')}`);
+
+    try {
+      const now = new Date();
+      const end = new Date(now.getTime() + durationHours * 60 * 60 * 1000);
+      const dateStr = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      const formatTime = (d: Date) => d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+
+      const newBooking = await createBooking({
+        parkingId: parking.id,
+        parkingName: parking.name,
+        parkingAddress: `${parking.address}, ${parking.city}`,
+        slotNumber: selectedSlot.slotNumber,
+        level: selectedSlot.level,
+        date: dateStr,
+        startTime: formatTime(now),
+        endTime: formatTime(end),
+        durationHours,
+        totalAmount: estimatedTotal,
+        vehicleNumber: vehiclePlate.trim() || 'KA-05-MN-2024',
+      });
+
+      navigate(`/booking/${newBooking.id}`);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Unknown booking error';
+      if (message === 'SLOT_ALREADY_RESERVED') {
+        setReservationError('This bay has just been reserved by another user. Please choose another bay.');
+      } else {
+        setReservationError('Unable to complete reservation. Please check your network and try again.');
+      }
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -57,7 +100,8 @@ export const ParkingDetail: React.FC = () => {
       {/* Breadcrumb Navigation */}
       <div className="detail-breadcrumb">
         <Link to="/parking" className="breadcrumb-link">
-          ← Facilities
+          <ArrowLeftIcon size={14} className="breadcrumb-icon" />
+          <span>{t('detail.allFacilities')}</span>
         </Link>
         <span className="breadcrumb-sep">/</span>
         <span className="breadcrumb-current">{parking.name}</span>
@@ -69,21 +113,25 @@ export const ParkingDetail: React.FC = () => {
           <div className="facility-overview-badges">
             <StatusBadge
               status={availableSlotsCount > 0 ? 'available' : 'occupied'}
-              label={availableSlotsCount > 0 ? `${availableSlotsCount} Bays Open` : 'Facility Full'}
+              label={availableSlotsCount > 0 ? `${availableSlotsCount} ${t('detail.baysOpen')}` : t('detail.facilityFull')}
             />
             <span className="facility-rating-badge">
-              ★ {parking.rating} ({parking.reviewsCount} reviews)
+              {t('detail.ratingReviews')}: {parking.rating} / 5.0 ({parking.reviewsCount})
             </span>
           </div>
 
           <h1 className="facility-overview-title">{parking.name}</h1>
-          <p className="facility-overview-address">{parking.address}, {parking.city}</p>
+          <p className="facility-overview-address">
+            <MapPinIcon size={15} className="overview-icon" />
+            <span>{parking.address}, {parking.city}</span>
+          </p>
           <p className="facility-overview-desc">{parking.description}</p>
 
           <div className="facility-amenities-row">
             {parking.features.map((feat, idx) => (
               <span key={idx} className="amenity-pill">
-                {feat}
+                {feat.toLowerCase().includes('ev') && <BoltIcon size={13} className="amenity-icon" />}
+                <span>{feat}</span>
               </span>
             ))}
           </div>
@@ -91,20 +139,23 @@ export const ParkingDetail: React.FC = () => {
 
         <div className="facility-overview-stats">
           <div className="stat-metric-cell">
-            <span className="metric-tag">Hourly Rate</span>
-            <span className="metric-figure">${parking.pricePerHour.toFixed(2)}/hr</span>
+            <span className="metric-tag">{t('detail.hourlyRate')}</span>
+            <span className="metric-figure">${parking.pricePerHour.toFixed(2)}/{t('common.hr')}</span>
           </div>
           <div className="stat-metric-cell">
-            <span className="metric-tag">Operating Hours</span>
-            <span className="metric-figure">{parking.operatingHours}</span>
+            <span className="metric-tag">{t('detail.operatingHours')}</span>
+            <span className="metric-figure">
+              <ClockIcon size={13} className="stat-icon" />
+              {parking.operatingHours}
+            </span>
           </div>
           <div className="stat-metric-cell">
-            <span className="metric-tag">Distance</span>
+            <span className="metric-tag">{t('detail.distance')}</span>
             <span className="metric-figure">{parking.distance}</span>
           </div>
           <div className="stat-metric-cell">
-            <span className="metric-tag">Total Capacity</span>
-            <span className="metric-figure">{parking.totalSlots} bays</span>
+            <span className="metric-tag">{t('detail.totalCapacity')}</span>
+            <span className="metric-figure">{parking.totalSlots} {t('detail.totalBays')}</span>
           </div>
         </div>
       </div>
@@ -116,8 +167,8 @@ export const ParkingDetail: React.FC = () => {
           <Card padding="md" className="floorplan-card">
             <div className="floorplan-header">
               <div>
-                <h2 className="floorplan-heading">Facility Floor Plan</h2>
-                <p className="floorplan-subheading">Select an available open bay to reserve.</p>
+                <h2 className="floorplan-heading">{t('detail.interactiveLayoutHeading')}</h2>
+                <p className="floorplan-subheading">{t('detail.interactiveLayoutSubheading')}</p>
               </div>
 
               {/* Level Filter Controls */}
@@ -127,21 +178,21 @@ export const ParkingDetail: React.FC = () => {
                   className={`level-btn ${selectedLevel === 'All' ? 'active' : ''}`}
                   onClick={() => setSelectedLevel('All')}
                 >
-                  All Levels
+                  {t('detail.allFloors')}
                 </button>
                 <button
                   type="button"
                   className={`level-btn ${selectedLevel === 'L1' ? 'active' : ''}`}
                   onClick={() => setSelectedLevel('L1')}
                 >
-                  Level 1 (Ground)
+                  L1
                 </button>
                 <button
                   type="button"
                   className={`level-btn ${selectedLevel === 'L2' ? 'active' : ''}`}
                   onClick={() => setSelectedLevel('L2')}
                 >
-                  Level 2 (Upper)
+                  L2
                 </button>
               </div>
             </div>
@@ -150,23 +201,23 @@ export const ParkingDetail: React.FC = () => {
             <div className="floorplan-legend">
               <div className="legend-item">
                 <span className="legend-swatch swatch-available"></span>
-                <span>Available ({availableSlotsCount})</span>
+                <span>{t('detail.legendAvailable')} ({availableSlotsCount})</span>
               </div>
               <div className="legend-item">
                 <span className="legend-swatch swatch-chosen"></span>
-                <span>Selected</span>
+                <span>{t('detail.legendSelection')}</span>
               </div>
               <div className="legend-item">
                 <span className="legend-swatch swatch-occupied"></span>
-                <span>Occupied ({occupiedSlotsCount})</span>
+                <span>{t('detail.legendOccupied')} ({occupiedSlotsCount})</span>
               </div>
               <div className="legend-item">
                 <span className="legend-swatch swatch-reserved"></span>
-                <span>Reserved ({reservedSlotsCount})</span>
+                <span>{t('detail.legendReserved')} ({reservedSlotsCount})</span>
               </div>
               <div className="legend-item">
                 <span className="legend-swatch swatch-disabled"></span>
-                <span>Maintenance</span>
+                <span>{t('detail.legendMaintenance')}</span>
               </div>
             </div>
 
@@ -191,12 +242,20 @@ export const ParkingDetail: React.FC = () => {
                   >
                     <div className="bay-top-row">
                       <span className="bay-level-tag">{slot.level}</span>
-                      {slot.type === 'ev' && <span className="bay-type-badge" title="EV Charging">⚡</span>}
-                      {slot.type === 'handicapped' && <span className="bay-type-badge" title="Accessible Bay">♿</span>}
+                      {slot.type === 'ev' && (
+                        <span className="bay-type-badge" title="EV Charging Bay">
+                          <BoltIcon size={12} />
+                        </span>
+                      )}
+                      {slot.type === 'handicapped' && (
+                        <span className="bay-type-badge text-accessible" title="Accessible Bay">
+                          ACC
+                        </span>
+                      )}
                     </div>
                     <span className="bay-number">{slot.slotNumber}</span>
                     <span className="bay-state-label">
-                      {isSelected ? 'SELECTED' : slot.status.toUpperCase()}
+                      {isSelected ? t('detail.legendSelection').toUpperCase() : t(`status.${slot.status}`).toUpperCase()}
                     </span>
                   </button>
                 );
@@ -208,10 +267,11 @@ export const ParkingDetail: React.FC = () => {
         {/* Right Column: Checkout / Reservation Summary Panel */}
         <div className="layout-col-checkout">
           <Card padding="md" className="checkout-panel-card">
-            <h3 className="checkout-title">Reservation Summary</h3>
+            <h3 className="checkout-title">{t('detail.summaryHeading')}</h3>
 
             {reservationNotice && (
               <div className="checkout-alert" role="status">
+                <CheckCircle2Icon size={16} className="checkout-alert-icon" />
                 <span>{reservationNotice}</span>
               </div>
             )}
@@ -219,19 +279,22 @@ export const ParkingDetail: React.FC = () => {
             <form onSubmit={handleReserveSubmit} className="checkout-form">
               {/* Selected Slot Information */}
               <div className="checkout-bay-box">
-                <span className="checkout-field-label">Selected Bay</span>
+                <span className="checkout-field-label">{t('detail.selectedBayLabel')}</span>
                 {selectedSlot ? (
                   <div className="chosen-bay-details">
-                    <div className="chosen-bay-id">{selectedSlot.slotNumber}</div>
-                    <div className="chosen-bay-specs">
-                      <span>Floor: <strong>{selectedSlot.level}</strong></span>
-                      <span>Type: <strong style={{ textTransform: 'uppercase' }}>{selectedSlot.type}</strong></span>
+                    <div className="chosen-bay-id">
+                      <CarIcon size={18} className="chosen-bay-icon" />
+                      <span>{selectedSlot.slotNumber}</span>
                     </div>
-                    <div className="chosen-bay-rate">${selectedSlot.pricePerHour.toFixed(2)}/hr</div>
+                    <div className="chosen-bay-specs">
+                      <span>{t('detail.floor')}: <strong>{selectedSlot.level}</strong></span>
+                      <span>{t('detail.type')}: <strong style={{ textTransform: 'uppercase' }}>{selectedSlot.type}</strong></span>
+                    </div>
+                    <div className="chosen-bay-rate">${selectedSlot.pricePerHour.toFixed(2)}/{t('common.hr')}</div>
                   </div>
                 ) : (
                   <div className="empty-slot-prompt">
-                    Click any open green bay on the floor plan.
+                    {t('detail.emptySlotPrompt')}
                   </div>
                 )}
               </div>
@@ -239,13 +302,13 @@ export const ParkingDetail: React.FC = () => {
               {/* License Plate */}
               <div className="form-group">
                 <label htmlFor="vehiclePlate" className="checkout-field-label">
-                  Vehicle License Plate
+                  {t('detail.licensePlateLabel')}
                 </label>
                 <input
                   id="vehiclePlate"
                   type="text"
                   className="checkout-input"
-                  placeholder="e.g. KA-05-MN-2024"
+                  placeholder={t('detail.licensePlatePlaceholder')}
                   value={vehiclePlate}
                   onChange={(e) => setVehiclePlate(e.target.value)}
                   required
@@ -254,7 +317,7 @@ export const ParkingDetail: React.FC = () => {
 
               {/* Duration Selector */}
               <div className="form-group">
-                <label className="checkout-field-label">Estimated Duration</label>
+                <label className="checkout-field-label">{t('detail.estimatedDurationLabel')}</label>
                 <div className="duration-button-group">
                   {[1, 2, 3, 4, 8].map((hrs) => (
                     <button
@@ -263,7 +326,7 @@ export const ParkingDetail: React.FC = () => {
                       className={`btn-duration ${durationHours === hrs ? 'active' : ''}`}
                       onClick={() => setDurationHours(hrs)}
                     >
-                      {hrs} hr{hrs > 1 ? 's' : ''}
+                      {hrs} {hrs > 1 ? t('common.hrs') : t('common.hr')}
                     </button>
                   ))}
                 </div>
@@ -272,36 +335,54 @@ export const ParkingDetail: React.FC = () => {
               {/* Pricing Breakdown */}
               <div className="checkout-pricing-breakdown">
                 <div className="pricing-line">
-                  <span>Base Rate ({durationHours}h × ${currentRate.toFixed(2)})</span>
+                  <span>{t('detail.baseRate')} ({durationHours}h × ${currentRate.toFixed(2)})</span>
                   <span>${estimatedTotal.toFixed(2)}</span>
                 </div>
                 <div className="pricing-line">
-                  <span>Municipal Sensor Fee</span>
-                  <span className="text-free">FREE</span>
+                  <span>{t('detail.sensorFee')}</span>
+                  <span className="text-free">{t('detail.feeFree')}</span>
                 </div>
                 <div className="pricing-line total-line">
-                  <span>Estimated Total</span>
+                  <span>{t('detail.estimatedTotal')}</span>
                   <span className="total-amount">${estimatedTotal.toFixed(2)}</span>
                 </div>
               </div>
 
+              {reservationError && (
+                <div className="reservation-error-banner" role="alert" style={{
+                  padding: '10px 14px',
+                  borderRadius: '6px',
+                  fontSize: '13px',
+                  background: 'rgba(239, 68, 68, 0.12)',
+                  color: '#ef4444',
+                  border: '1px solid rgba(239, 68, 68, 0.3)',
+                  marginBottom: '14px',
+                  lineHeight: '1.4'
+                }}>
+                  {reservationError}
+                </div>
+              )}
+
               {/* Action Button */}
               <Button
                 type="submit"
-                variant={selectedSlot ? 'success' : 'primary'}
+                variant="primary"
                 fullWidth
                 size="lg"
                 disabled={!selectedSlot || isSubmitting}
               >
-                {isSubmitting
-                  ? 'Reserving Bay...'
-                  : selectedSlot
-                  ? `Reserve Bay ${selectedSlot.slotNumber} ($${estimatedTotal.toFixed(2)})`
-                  : 'Select an Available Bay'}
+                <span>
+                  {isSubmitting
+                    ? t('detail.reservingBay')
+                    : selectedSlot
+                    ? `${t('detail.reserveBayAction')} ($${estimatedTotal.toFixed(2)})`
+                    : t('detail.selectBayToContinue')}
+                </span>
+                {!isSubmitting && selectedSlot && <ArrowRightIcon size={16} />}
               </Button>
 
               <p className="checkout-disclaimer">
-                Instant digital boarding pass issued upon reservation. Free cancellation up to 15 minutes before scheduled start time.
+                {t('detail.checkoutDisclaimer')}
               </p>
             </form>
           </Card>
@@ -312,3 +393,4 @@ export const ParkingDetail: React.FC = () => {
 };
 
 export default ParkingDetail;
+

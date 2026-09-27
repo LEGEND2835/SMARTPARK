@@ -1,27 +1,61 @@
 import React from 'react';
 import { NavLink, Link, Outlet } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext';
+import { useTranslation } from '../i18n';
+import { LanguageSelector } from './LanguageSelector';
+import {
+  ParkingIcon,
+  BarChart3Icon,
+  BuildingIcon,
+  TicketIcon,
+  ArrowRightIcon,
+  SunIcon,
+  MoonIcon,
+  ShieldCheckIcon,
+} from './Icons';
 import './AdminLayout.css';
 
 export const AdminLayout: React.FC = () => {
+  const { theme, toggleTheme } = useTheme();
+  const { t } = useTranslation();
+
   return (
     <div className="admin-app-wrapper">
       {/* Top Header */}
       <header className="admin-topbar">
         <div className="admin-topbar-left">
           <Link to="/admin" className="admin-brand-link">
-            <span className="admin-symbol">P</span>
-            <span className="admin-brand-text">SmartPark</span>
-            <span className="admin-console-pill">Operations Console</span>
+            <div className="admin-symbol">
+              <ParkingIcon size={16} />
+            </div>
+            <span className="admin-brand-text">
+              Smart<span className="brand-accent">Park</span>
+            </span>
+            <span className="admin-console-pill">{t('admin.operationsHubTag')}</span>
           </Link>
         </div>
 
         <div className="admin-topbar-right">
           <div className="admin-telemetry-pill">
             <span className="telemetry-live-dot"></span>
-            <span>IoT Sensors Active (5/5)</span>
+            <span>{t('footer.allConnected')}</span>
           </div>
+
+          <LanguageSelector />
+
+          <button
+            type="button"
+            className="theme-toggle-btn admin-theme-btn"
+            onClick={toggleTheme}
+            aria-label={t('nav.switchTheme')}
+            title={t('nav.switchTheme')}
+          >
+            {theme === 'light' ? <MoonIcon size={16} /> : <SunIcon size={16} />}
+          </button>
+
           <Link to="/dashboard" className="btn-exit-admin">
-            Exit to App →
+            <span>{t('admin.exitAdmin')}</span>
+            <ArrowRightIcon size={14} />
           </Link>
         </div>
       </header>
@@ -29,33 +63,39 @@ export const AdminLayout: React.FC = () => {
       <div className="admin-body-layout">
         {/* Sidebar */}
         <aside className="admin-sidebar" aria-label="Operations Navigation">
-          <div className="sidebar-section-title">Operations</div>
+          <div className="sidebar-section-title">{t('admin.pageTitle')}</div>
           <nav className="admin-nav-menu">
             <NavLink
               to="/admin"
               end
               className={({ isActive }) => (isActive ? 'admin-nav-item active' : 'admin-nav-item')}
             >
-              <span className="nav-item-name">Overview & Metrics</span>
+              <BarChart3Icon size={17} className="admin-nav-icon" />
+              <span className="nav-item-name">{t('admin.pageTitle')}</span>
             </NavLink>
             <NavLink
               to="/admin/parking"
               className={({ isActive }) => (isActive ? 'admin-nav-item active' : 'admin-nav-item')}
             >
-              <span className="nav-item-name">Facility Inventory</span>
+              <BuildingIcon size={17} className="admin-nav-icon" />
+              <span className="nav-item-name">{t('admin.manageFacilities')}</span>
             </NavLink>
             <NavLink
               to="/admin/reservations"
               className={({ isActive }) => (isActive ? 'admin-nav-item active' : 'admin-nav-item')}
             >
-              <span className="nav-item-name">Active Reservations</span>
+              <TicketIcon size={17} className="admin-nav-icon" />
+              <span className="nav-item-name">{t('admin.allReservations')}</span>
             </NavLink>
           </nav>
 
           <div className="sidebar-footer-card">
-            <span className="sidebar-hub-title">City Network</span>
-            <p className="sidebar-hub-desc">Gateway connected to Municipal Transit Grid.</p>
-            <span className="sidebar-ver">v2.4.0 • Node Live</span>
+            <div className="sidebar-hub-header">
+              <ShieldCheckIcon size={14} className="hub-shield-icon" />
+              <span className="sidebar-hub-title">SmartPark Grid</span>
+            </div>
+            <p className="sidebar-hub-desc">{t('footer.tagline')}</p>
+            <span className="sidebar-ver">v3.0.0 • {t('status.active')}</span>
           </div>
         </aside>
 

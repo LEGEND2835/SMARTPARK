@@ -1,0 +1,197 @@
+/* Language Selector Component Styles */
+.lang-selector-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.lang-selector-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 38px;
+  padding: 0 10px;
+  background: var(--bg-card, rgba(255, 255, 255, 0.05));
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.12));
+  border-radius: 8px;
+  color: var(--text-primary, #ffffff);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.lang-selector-trigger:hover {
+  background: var(--bg-card-hover, rgba(255, 255, 255, 0.08));
+  border-color: var(--primary, #0cf005);
+  color: var(--text-primary, #ffffff);
+}
+
+.lang-selector-container.is-open .lang-selector-trigger {
+  border-color: var(--primary, #0cf005);
+  box-shadow: 0 0 0 2px rgba(12, 240, 5, 0.15);
+}
+
+.lang-globe-icon {
+  width: 15px;
+  height: 15px;
+  color: var(--text-secondary, #bdbcc8);
+  flex-shrink: 0;
+  transition: color 0.2s ease;
+}
+
+.lang-selector-trigger:hover .lang-globe-icon,
+.lang-selector-container.is-open .lang-globe-icon {
+  color: var(--primary, #0cf005);
+}
+
+.lang-current-code {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--text-primary, #ffffff);
+}
+
+.lang-chevron-icon {
+  width: 13px;
+  height: 13px;
+  color: var(--text-secondary, #bdbcc8);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
+}
+
+.lang-chevron-icon.rotate {
+  transform: rotate(180deg);
+}
+
+/* Dropdown */
+.lang-selector-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 170px;
+  background: var(--bg-card, #1e1e24);
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.14));
+  border-radius: 10px;
+  padding: 6px;
+  margin: 0;
+  list-style: none;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 1050;
+  animation: langDropdownFadeIn 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes langDropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.lang-option-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.lang-option-item:hover {
+  background: rgba(12, 240, 5, 0.08);
+}
+
+.lang-option-item.active {
+  background: rgba(12, 240, 5, 0.14);
+}
+
+.lang-option-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.lang-option-native {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary, #ffffff);
+}
+
+.lang-option-english {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--text-secondary, #bdbcc8);
+}
+
+.lang-option-item.active .lang-option-native {
+  color: var(--primary, #0cf005);
+}
+
+.lang-check-icon {
+  width: 14px;
+  height: 14px;
+  color: var(--primary, #0cf005);
+  flex-shrink: 0;
+}
+
+/* Light Theme Overrides */
+[data-theme='light'] .lang-selector-trigger {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+  color: #0f172a;
+}
+
+[data-theme='light'] .lang-selector-trigger:hover {
+  background: #f1f5f9;
+  border-color: #10b981;
+  color: #0f172a;
+}
+
+[data-theme='light'] .lang-globe-icon,
+[data-theme='light'] .lang-chevron-icon {
+  color: #64748b;
+}
+
+[data-theme='light'] .lang-current-code {
+  color: #0f172a;
+}
+
+[data-theme='light'] .lang-selector-dropdown {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='light'] .lang-option-native {
+  color: #0f172a;
+}
+
+[data-theme='light'] .lang-option-english {
+  color: #64748b;
+}
+
+[data-theme='light'] .lang-option-item:hover {
+  background: rgba(16, 185, 129, 0.08);
+}
+
+[data-theme='light'] .lang-option-item.active {
+  background: rgba(16, 185, 129, 0.12);
+}
+
+[data-theme='light'] .lang-option-item.active .lang-option-native {
+  color: #059669;
+}
+
+[data-theme='light'] .lang-check-icon {
+  color: #059669;
+}

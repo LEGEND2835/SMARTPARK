@@ -1,86 +1,229 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
 :root {
-  /* Neutral Color Foundation */
-  --bg-main: #F7F7F3;
+  /* ==========================================================
+     SMARTPARK DESIGN SYSTEM TOKENS (LIGHT THEME DEFAULT)
+     ========================================================== */
+
+  /* Identity & Brand Accents */
+  --primary: #16A34A;
+  --primary-hover: #15803D;
+  --primary-active: #166534;
+  --primary-subtle: #DCFCE7;
+  --primary-subtle-hover: #BBF7D0;
+  --primary-border: #86EFAC;
+  --primary-text: #15803D;
+  --primary-btn-text: #FFFFFF;
+
+  /* Neutrals & Surfaces - Light Mode (Warm refined smart-city) */
+  --bg-main: #F7F8F6;
   --bg-surface: #FFFFFF;
-  --bg-subtle: #F0F0EB;
-  --bg-hover: #E9E9E2;
-  --bg-active: #E2E2D9;
+  --bg-surface-elevated: #FFFFFF;
+  --bg-subtle: #F1F3F0;
+  --bg-hover: #E8EBE6;
+  --bg-active: #E0E4DE;
+  --bg-muted: #ECEFEA;
 
   /* Typography Colors */
-  --text-main: #141413;
-  --text-secondary: #4A4A45;
-  --text-muted: #73736C;
-  --text-subdued: #999990;
+  --text-main: #111827;
+  --text-secondary: #4B5563;
+  --text-muted: #6B7280;
+  --text-subdued: #9CA3AF;
   --text-inverse: #FFFFFF;
 
-  /* Borders */
-  --border-main: #E3E3DC;
-  --border-subtle: #EDEDE8;
-  --border-strong: #C4C4B9;
-  --border-focus: #141413;
-
-  /* Accent & Action Colors */
-  --primary: #141413;
-  --primary-hover: #262624;
-  --primary-light: #F0F0EB;
-
-  /* Mobility Green Accent */
-  --accent-green: #63832A;
-  --accent-green-hover: #506A21;
-  --accent-green-light: #F2F7EB;
-  --accent-green-border: #D2E3B8;
-  --accent-green-text: #3D5319;
+  /* Borders & Dividers */
+  --border-subtle: #F3F4F6;
+  --border-main: #E5E7EB;
+  --border-strong: #D1D5DB;
+  --border-focus: #16A34A;
 
   /* Status Colors */
-  --status-available: #4B6E22;
-  --status-available-bg: #F2F7EB;
-  --status-available-border: #D2E3B8;
+  --status-available: #16A34A;
+  --status-available-bg: #F0FDF4;
+  --status-available-border: #BBF7D0;
+  --status-available-text: #15803D;
 
-  --status-occupied: #B5473F;
-  --status-occupied-bg: #FDF3F2;
-  --status-occupied-border: #F5CAC6;
+  --status-occupied: #DC2626;
+  --status-occupied-bg: #FEF2F2;
+  --status-occupied-border: #FECACA;
+  --status-occupied-text: #B91C1C;
 
-  --status-reserved: #B06E24;
-  --status-reserved-bg: #FDF7ED;
-  --status-reserved-border: #F7DEB8;
+  --status-reserved: #D97706;
+  --status-reserved-bg: #FFFBEB;
+  --status-reserved-border: #FDE68A;
+  --status-reserved-text: #B45309;
 
-  --status-disabled: #787872;
-  --status-disabled-bg: #EEEEEC;
-  --status-disabled-border: #DADAD4;
+  --status-maintenance: #6B7280;
+  --status-maintenance-bg: #F3F4F6;
+  --status-maintenance-border: #E5E7EB;
+  --status-maintenance-text: #4B5563;
 
-  --danger: #B5473F;
-  --danger-hover: #9B3932;
-  --danger-light: #FDF3F2;
+  /* Alert Tokens */
+  --danger: #DC2626;
+  --danger-hover: #B91C1C;
+  --danger-subtle: #FEF2F2;
+  --danger-border: #FECACA;
 
-  /* Typography */
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  /* Spacing Scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
 
   /* Radii */
-  --radius-xs: 3px;
-  --radius-sm: 5px;
+  --radius-xs: 4px;
+  --radius-sm: 6px;
   --radius-md: 8px;
   --radius-lg: 12px;
+  --radius-xl: 16px;
   --radius-full: 9999px;
 
-  /* Subtle, Natural Elevations */
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.03);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.04);
+  /* Shadows (Natural, restrained) */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.06), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
 
-  /* Shared Container Widths */
-  --container-max-width: 1200px;
+  /* Layout */
+  --container-max-width: 1240px;
+  --header-height: 72px;
 
-  font-family: var(--font-sans);
+  /* Fonts */
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 200ms ease;
+  --transition-slow: 300ms ease;
+
   color-scheme: light;
+  font-family: var(--font-sans);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ==========================================================
+   SMARTPARK DARK THEME (Approved CSS1 Palette & Charcoal System)
+   ========================================================== */
+[data-theme="dark"] {
+  /* Approved SmartPark CSS1 Palette (Source of Truth) */
+  --text: #FFFFFF;
+  --background: #1B1B1D;
+  --primary: #0CF005;
+  --secondary: #BDBCC8;
+  --accent: #2CCE41;
+
+  /* Primary & Accent Interactions in Dark Mode */
+  --primary-hover: #2CCE41;
+  --primary-active: #09B803;
+  --primary-subtle: rgba(12, 240, 5, 0.12);
+  --primary-subtle-hover: rgba(12, 240, 5, 0.20);
+  --primary-border: rgba(12, 240, 5, 0.28);
+  --primary-text: #0CF005;
+  --primary-soft: rgba(12, 240, 5, 0.12);
+  --primary-btn-text: #1B1B1D;
+
+  --accent-hover: #26B539;
+  --accent-subtle: rgba(44, 206, 65, 0.12);
+  --accent-border: rgba(44, 206, 65, 0.28);
+  --accent-text: #2CCE41;
+
+  /* Dark Theme Surfaces (Neutral Charcoal Family) */
+  --bg-main: var(--background); /* #1B1B1D */
+  --bg-surface: #242427;
+  --bg-surface-elevated: #2D2D32;
+  --bg-surface-subtle: #1F1F22;
+  --bg-subtle: #242427;
+  --bg-hover: #2D2D32;
+  --bg-active: #36363C;
+  --bg-muted: #1F1F22;
+
+  /* Typography Colors */
+  --text-main: var(--text); /* #FFFFFF */
+  --text-secondary: var(--secondary); /* #BDBCC8 */
+  --text-muted: #9392A0;
+  --text-subdued: #747382;
+  --text-inverse: #1B1B1D;
+
+  /* Borders & Dividers */
+  --border-subtle: #2A2A2F;
+  --border-main: #383840;
+  --border-strong: #4A4A54;
+  --border-focus: var(--primary); /* #0CF005 */
+
+  /* Status Colors (Dark Mode Adapted) */
+  --status-available: var(--primary); /* #0CF005 */
+  --status-available-bg: rgba(12, 240, 5, 0.12);
+  --status-available-border: rgba(12, 240, 5, 0.28);
+  --status-available-text: #0CF005;
+
+  --status-occupied: #EF4444;
+  --status-occupied-bg: rgba(239, 68, 68, 0.12);
+  --status-occupied-border: rgba(239, 68, 68, 0.28);
+  --status-occupied-text: #F87171;
+
+  --status-reserved: #F59E0B;
+  --status-reserved-bg: rgba(245, 158, 11, 0.12);
+  --status-reserved-border: rgba(245, 158, 11, 0.28);
+  --status-reserved-text: #FBBF24;
+
+  --status-maintenance: var(--secondary); /* #BDBCC8 */
+  --status-maintenance-bg: rgba(189, 188, 200, 0.12);
+  --status-maintenance-border: rgba(189, 188, 200, 0.25);
+  --status-maintenance-text: var(--secondary);
+
+  /* Semantic Feedback Tokens */
+  --color-success: var(--accent); /* #2CCE41 */
+  --color-success-bg: rgba(44, 206, 65, 0.12);
+  --color-success-border: rgba(44, 206, 65, 0.28);
+  --color-success-text: #2CCE41;
+
+  --color-warning: #F59E0B;
+  --color-warning-bg: rgba(245, 158, 11, 0.12);
+  --color-warning-border: rgba(245, 158, 11, 0.28);
+  --color-warning-text: #FBBF24;
+
+  --color-danger: #EF4444;
+  --color-danger-bg: rgba(239, 68, 68, 0.12);
+  --color-danger-border: rgba(239, 68, 68, 0.28);
+  --color-danger-text: #F87171;
+
+  /* Alert Tokens */
+  --danger: #EF4444;
+  --danger-hover: #DC2626;
+  --danger-subtle: rgba(239, 68, 68, 0.12);
+  --danger-border: rgba(239, 68, 68, 0.28);
+
+  /* Shadows for Dark Mode on #1B1B1D */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.55), 0 2px 4px -1px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.65), 0 4px 6px -2px rgba(0, 0, 0, 0.45);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.75), 0 10px 10px -5px rgba(0, 0, 0, 0.55);
+
+  color-scheme: dark;
+}
+
+/* ==========================================================
+   GLOBAL RESETS & ELEMENT STYLES
+   ========================================================== */
 *, *::before, *::after {
   box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -89,8 +232,10 @@ body {
   background-color: var(--bg-main);
   color: var(--text-main);
   font-family: var(--font-sans);
-  min-height: 100vh;
+  font-size: 15px;
   line-height: 1.5;
+  min-height: 100vh;
+  transition: background-color var(--transition-normal), color var(--transition-normal);
 }
 
 #root {
@@ -104,27 +249,69 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+  transition: color var(--transition-fast);
 }
 
 button {
   font-family: inherit;
   cursor: pointer;
+  border: none;
+  background: none;
 }
 
 input, select, textarea {
   font-family: inherit;
+  color: var(--text-main);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-main);
+  border-radius: var(--radius-md);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-normal);
 }
 
-/* Global Container Utility */
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-subtle);
+}
+
+/* Typography Hierarchy */
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.02em;
+}
+
+p {
+  margin: 0;
+}
+
+/* Common Container Utility */
 .smartpark-container {
   width: 100%;
   max-width: var(--container-max-width);
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 var(--space-6);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .smartpark-container {
-    padding: 0 1rem;
+    padding: 0 var(--space-4);
+  }
+}
+
+/* Focus Visible Accessibility */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

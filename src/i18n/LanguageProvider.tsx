@@ -4,6 +4,10 @@ import type { Language, NestedTranslationRecord } from './types';
 import { en } from './translations/en';
 import { hi } from './translations/hi';
 import { kn } from './translations/kn';
+import { ta } from './translations/ta';
+import { te } from './translations/te';
+import { ml } from './translations/ml';
+import { bn } from './translations/bn';
 import { LanguageContext } from './LanguageContext';
 
 const STORAGE_KEY = 'smartpark_language';
@@ -12,6 +16,10 @@ const dictionaries: Record<Language, NestedTranslationRecord> = {
   en: en as unknown as NestedTranslationRecord,
   hi: hi as unknown as NestedTranslationRecord,
   kn: kn as unknown as NestedTranslationRecord,
+  ta: ta as unknown as NestedTranslationRecord,
+  te: te as unknown as NestedTranslationRecord,
+  ml: ml as unknown as NestedTranslationRecord,
+  bn: bn as unknown as NestedTranslationRecord,
 };
 
 function resolveKeyPath(obj: NestedTranslationRecord, path: string): string | undefined {
@@ -31,12 +39,17 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [language, setLanguageState] = useState<Language>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved === 'en' || saved === 'hi' || saved === 'kn') {
-        return saved;
+      const savedLanguage = SUPPORTED_LANGUAGES.find(
+        (option) => option.code === saved
+      );
+
+      if (savedLanguage) {
+        return savedLanguage.code;
       }
     } catch {
       // ignore storage access errors
     }
+
     return 'en';
   });
 
